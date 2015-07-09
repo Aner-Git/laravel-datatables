@@ -21,9 +21,9 @@ use yajra\Datatables\Engines\QueryBuilderEngine;
  * Class Datatables
  *
  * @package yajra\Datatables
- * @method  EloquentEngine eloquent($builder)
- * @method  CollectionEngine collection(Collection $builder)
- * @method  QueryBuilderEngine queryBuilder(QueryBuilder $builder)
+ * @method  \yajra\Datatables\Engines\EloquentEngine eloquent($builder)
+ * @method  \yajra\Datatables\Engines\CollectionEngine collection(Collection $builder)
+ * @method  \yajra\Datatables\Engines\QueryBuilderEngine queryBuilder(QueryBuilder $builder)
  */
 class Datatables
 {
@@ -80,7 +80,10 @@ class Datatables
      */
     public function usingQueryBuilder(QueryBuilder $builder)
     {
-        return new QueryBuilderEngine($builder, $this->request);
+        $builder = new QueryBuilderEngine($builder);
+        $builder->setRequest($this->request);
+
+        return $builder;
     }
 
     /**
@@ -91,7 +94,11 @@ class Datatables
      */
     public function usingCollection(Collection $builder)
     {
-        return new CollectionEngine($builder, $this->request);
+        $builder = new CollectionEngine($builder);
+        $builder->setRequest($this->request);
+
+        return $builder;
+
     }
 
     /**
@@ -120,6 +127,9 @@ class Datatables
      */
     public function usingEloquent($builder)
     {
-        return new EloquentEngine($builder, $this->request);
+        $builder = new EloquentEngine($builder);
+        $builder->setRequest($this->request);
+
+        return $builder;
     }
 }

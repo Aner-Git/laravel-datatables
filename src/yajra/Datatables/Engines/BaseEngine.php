@@ -19,6 +19,7 @@ use League\Fractal\TransformerAbstract;
 use yajra\Datatables\Contracts\DataTableEngine;
 use yajra\Datatables\Processors\DataProcessor;
 use yajra\Datatables\Helper;
+use yajra\Datatables\Request;
 
 abstract class BaseEngine implements DataTableEngine
 {
@@ -705,5 +706,21 @@ abstract class BaseEngine implements DataTableEngine
     public function isCaseInsensitive()
     {
         return Config::get('datatables.search.case_insensitive', false);
+    }
+
+    /**
+     * @return \yajra\Datatables\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param \yajra\Datatables\Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
     }
 }

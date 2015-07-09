@@ -15,18 +15,15 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use yajra\Datatables\Contracts\DataTableEngine;
 use yajra\Datatables\Helper;
-use yajra\Datatables\Request;
 
 class QueryBuilderEngine extends BaseEngine implements DataTableEngine
 {
 
     /**
      * @param Builder $builder
-     * @param \yajra\Datatables\Request $request
      */
-    public function __construct(Builder $builder, Request $request)
+    public function __construct(Builder $builder)
     {
-        $this->request    = $request;
         $this->query_type = 'builder';
         $this->query      = $builder;
         $this->columns    = $this->query->columns;

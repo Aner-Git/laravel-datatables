@@ -15,7 +15,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use yajra\Datatables\Contracts\DataTableEngine;
-use yajra\Datatables\Request;
 
 class CollectionEngine extends BaseEngine implements DataTableEngine
 {
@@ -36,11 +35,9 @@ class CollectionEngine extends BaseEngine implements DataTableEngine
 
     /**
      * @param Collection $collection
-     * @param \yajra\Datatables\Request $request
      */
-    public function __construct(Collection $collection, Request $request)
+    public function __construct(Collection $collection)
     {
-        $this->request             = $request;
         $this->collection          = $collection;
         $this->original_collection = $collection;
         $this->columns             = array_keys($this->serialize($collection->first()));
@@ -113,9 +110,9 @@ class CollectionEngine extends BaseEngine implements DataTableEngine
         $columns          = $this->request['columns'];
         $this->collection = $this->collection->filter(
             function ($row) use ($columns) {
-                $data  = $this->serialize($row);
+                $data                  = $this->serialize($row);
                 $this->isFilterApplied = true;
-                $found = [];
+                $found                 = [];
 
                 $keyword = $this->request->keyword();
                 foreach ($this->request->searchableColumnIndex() as $index) {
