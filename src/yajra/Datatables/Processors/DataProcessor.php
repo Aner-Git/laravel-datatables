@@ -126,11 +126,11 @@ class DataProcessor
     /**
      * Setup additional DT row variables.
      *
-     * @param mixed $data
+     * @param array $data
      * @param mixed $row
      * @return array
      */
-    protected function setupRowVariables($data, $row)
+    protected function setupRowVariables(array $data, $row)
     {
         $processor = new RowProcessor($data, $row);
 
