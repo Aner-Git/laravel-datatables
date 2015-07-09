@@ -14,19 +14,19 @@ class Helper
     /**
      * Places item of extra columns into results by care of their order.
      *
-     * @param  $item
-     * @param  $array
+     * @param  array $item
+     * @param  array $data
      * @return array
      */
-    public static function includeInArray($item, $array)
+    public static function includeInArray(array $item, array $data)
     {
         if ($item['order'] === false) {
-            return array_merge($array, [$item['name'] => $item['content']]);
+            return array_merge($data, [$item['name'] => $item['content']]);
         } else {
             $count = 0;
-            $last  = $array;
+            $last  = $data;
             $first = [];
-            foreach ($array as $key => $value) {
+            foreach ($data as $key => $value) {
                 if ($count == $item['order']) {
                     return array_merge($first, [$item['name'] => $item['content']], $last);
                 }
@@ -59,24 +59,10 @@ class Helper
     }
 
     /**
-     * @param  mixed $data
-     * @param  mixed $param
-     * @return array
-     */
-    public static function getMixedValue($data, $param)
-    {
-        foreach ($data as $key => $value) {
-            $data[$key] = $param[$key];
-        }
-
-        return $data;
-    }
-
-    /**
      * Parses and compiles strings by using Blade Template System.
      *
      * @param string $str
-     * @param array  $data
+     * @param array $data
      * @return string
      * @throws \Exception
      */
@@ -99,6 +85,20 @@ class Helper
         ob_end_clean();
 
         return $str;
+    }
+
+    /**
+     * @param  mixed $data
+     * @param  mixed $param
+     * @return array
+     */
+    public static function getMixedValue($data, $param)
+    {
+        foreach ($data as $key => $value) {
+            $data[$key] = $param[$key];
+        }
+
+        return $data;
     }
 
     /**
@@ -177,8 +177,10 @@ class Helper
         foreach (array_keys($data) as $key) {
             if (is_object($data[$key])) {
                 $data[$key] = $row->$key;
-            } else if (is_array($data[$key])) {
-                $data[$key] = static::convertToArray($data[$key]);
+            } else {
+                if (is_array($data[$key])) {
+                    $data[$key] = static::convertToArray($data[$key]);
+                }
             }
         }
 
